@@ -20,6 +20,8 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'therubyracer'
+
 gem 'jquery-rails'
 
 group :development do
@@ -27,6 +29,10 @@ group :development do
 end
 
 group :test do
+  gem 'autotest-standalone', :require => 'autotest'
+  gem 'autotest-rails-pure'
+  gem 'redgreen'
+  gem 'test-unit'
   gem 'rspec', '2.5.0'
   gem 'webrat', '0.7.1'
 end
