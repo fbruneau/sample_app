@@ -25,7 +25,8 @@ gem 'therubyracer'
 gem 'jquery-rails'
 
 group :development do
-  gem 'rspec-rails', '2.5.0'
+  gem 'rspec-rails', '2.10.0'
+	gem 'annotate', '2.4.1.beta1'
 end
 
 group :test do
@@ -33,7 +34,7 @@ group :test do
   gem 'autotest-rails-pure'
   gem 'redgreen'
   gem 'test-unit'
-  gem 'rspec', '2.5.0'
+  gem 'rspec', '2.10.0'
   gem 'webrat', '0.7.1'
   gem 'spork', '0.9.0.rc5'
 end
