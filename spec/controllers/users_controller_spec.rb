@@ -6,15 +6,36 @@ describe UsersController do
 	render_views
 
   describe "GET 'new'" do
-    it "should be successful" do
-      get 'new'
-      response.should be_success
-    end
+		  it "should be successful" do
+		    get 'new'
+		    response.should be_success
+		  end
 
 		it "should have a title" do
-      get 'new'
-      response.should have_selector("title", :content => "Inscription")
-    end
+		    get 'new'
+		    response.should have_selector("title", :content => "Inscription")
+		  end
+		it "devrait avoir un champ nom" do
+		    get :new
+		    response.should have_selector("input[name='user[nom]'][type='text']")
+		  end
+
+		  it "devrait avoir un champ email" do
+				get :new
+		    response.should have_selector("input[name='user[email]'][type='text']")
+		  end
+
+
+		  it "devrait avoir un champ mot de passe" do
+				get :new
+		    response.should have_selector("input[name='user[password]'][type='password']")
+		  end
+
+
+		  it "devrait avoir un champ confirmation du mot de passe" do
+				get :new
+		    response.should have_selector("input[name='user[password_confirmation]'][type='password']")
+		  end
   end
 
 	describe "GET 'show'" do
@@ -75,7 +96,7 @@ describe UsersController do
       end
     end
 
-		describe "succès" do
+	describe "succès" do
 
       before(:each) do
         @attr = { :nom => "New User", :email => "user@example.com",
@@ -86,6 +107,11 @@ describe UsersController do
         lambda do
           post :create, :user => @attr
         end.should change(User, :count).by(1)
+      end
+
+			it "devrait identifier l'utilisateur" do
+        post :create, :user => @attr
+        controller.should be_signed_in
       end
 
       it "devrait rediriger vers la page d'affichage de l'utilisateur" do
