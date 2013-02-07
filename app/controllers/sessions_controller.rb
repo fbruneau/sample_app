@@ -12,8 +12,12 @@ class SessionsController < ApplicationController
       @titre = "Connexion"
       render 'new'
     else
-      sign_in user
-      redirect_to user
+			if (params[:session][:remindme] == "1")
+     		sign_in user
+			else
+				sign_in_no_cookie user
+			end
+			redirect_to user	
     end
   end
 

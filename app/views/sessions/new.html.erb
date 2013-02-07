@@ -9,6 +9,10 @@
     <%= f.label :password, "Mot de passe" %><br />
     <%= f.password_field :password %>
   </div>
+  <div class="checkbox">
+    <%= f.label "Rester connecté" %>
+    <%= f.check_box :remindme,{checked: true, disabled: true} %>
+  </div>
   <div class="actions">
     <%= f.submit "S'identifier" %>
   </div>
