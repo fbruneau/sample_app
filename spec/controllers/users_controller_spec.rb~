@@ -2,9 +2,11 @@
 
 require 'spec_helper'
 
+#Debut UsersController###################################################################################
 describe UsersController do
 	render_views
 
+#Debut GET 'new'========================================================================================
   describe "GET 'new'" do
 		  it "should be successful" do
 		    get 'new'
@@ -37,7 +39,8 @@ describe UsersController do
 		    response.should have_selector("input[name='user[password_confirmation]'][type='password']")
 		  end
   end
-
+#Fin GET 'new'========================================================================================
+#Debut GET 'show'========================================================================================
 	describe "GET 'show'" do
 
     before(:each) do
@@ -69,9 +72,10 @@ describe UsersController do
       response.should have_selector("h1>img", :class => "gravatar")
     end
   end
-
+#Fin GET 'show'========================================================================================
+#Debut POST 'create'========================================================================================
 	describe "POST 'create'" do
-
+		#Debut tests d'échecs----------------------------------------------------------------------------
     describe "échec" do
 
       before(:each) do
@@ -95,30 +99,139 @@ describe UsersController do
         response.should render_template('new')
       end
     end
+		#fin tests d'échecs----------------------------------------------------------------------------
+		#Debut tests de succès----------------------------------------------------------------------------
+		describe "succès" do
 
-	describe "succès" do
+		    before(:each) do
+		      @attr = { :nom => "New User", :email => "user@example.com",
+		                :password => "foobar", :password_confirmation => "foobar" }
+		    end
+
+		    it "devrait créer un utilisateur" do
+		      lambda do
+		        post :create, :user => @attr
+		      end.should change(User, :count).by(1)
+		    end
+
+				it "devrait identifier l'utilisateur" do
+		      post :create, :user => @attr
+		      controller.should be_signed_in
+		    end
+
+		    it "devrait rediriger vers la page d'affichage de l'utilisateur" do
+		      post :create, :user => @attr
+		      response.should redirect_to(user_path(assigns(:user)))
+		    end    
+
+				it "devrait avoir un message de bienvenue" do
+		      post :create, :user => @attr
+		      flash[:success].should =~ /Bienvenue dans l'Application Exemple/i
+		    end
+		 end
+		#fin tests de succès----------------------------------------------------------------------------
+  end
+#Fin POST 'create'========================================================================================
+#Début GET 'edit'========================================================================================
+	describe "GET 'edit'" do
+
+    before(:each) do
+      @user = Factory(:user)
+      test_sign_in(@user)
+    end
+
+    it "devrait réussir" do
+      get :edit, :id => @user
+      response.should be_success
+    end
+
+    it "devrait avoir le bon titre" do
+      get :edit, :id => @user
+      response.should have_selector("title", :content => "Édition profil")
+    end
+
+    it "devrait avoir un lien pour changer l'image Gravatar" do
+      get :edit, :id => @user
+      gravatar_url = "http://gravatar.com/emails"
+      response.should have_selector("a", :href => gravatar_url,
+                                         :content => "changer")
+    end
+  end
+#Fin GET 'edit'========================================================================================
+#Début PUT 'update'========================================================================================
+	describe "PUT 'update'" do
+
+    before(:each) do
+      @user = Factory(:user)
+      test_sign_in(@user)
+    end
+		#Debut tests echec -----------------------------------------------------------------------------------------
+    describe "Échec" do
 
       before(:each) do
-        @attr = { :nom => "New User", :email => "user@example.com",
-                  :password => "foobar", :password_confirmation => "foobar" }
+        @attr = { :email => "", :nom => "", :password => "",
+                  :password_confirmation => "" }
       end
 
-      it "devrait créer un utilisateur" do
-        lambda do
-          post :create, :user => @attr
-        end.should change(User, :count).by(1)
+      it "devrait retourner la page d'édition" do
+        put :update, :id => @user, :user => @attr
+        response.should render_template('edit')
+      end
+
+      it "devrait avoir le bon titre" do
+        put :update, :id => @user, :user => @attr
+        response.should have_selector("title", :content => "Édition profil")
+      end
+    end
+		#Fin tests echec ------------------------------------------------------------------------------------
+		#Debut tests succès -----------------------------------------------------------------------------------------
+    describe "succès" do
+
+      before(:each) do
+        @attr = { :nom => "New Name", :email => "user@example.org",
+                  :password => "barbaz", :password_confirmation => "barbaz" }
+      end
+
+      it "devrait modifier les caractéristiques de l'utilisateur" do
+        put :update, :id => @user, :user => @attr
+        @user.reload
+        @user.nom.should  == @attr[:nom]
+        @user.email.should == @attr[:email]
       end
 
       it "devrait rediriger vers la page d'affichage de l'utilisateur" do
-        post :create, :user => @attr
-        response.should redirect_to(user_path(assigns(:user)))
-      end    
+        put :update, :id => @user, :user => @attr
+        response.should redirect_to(user_path(@user))
+      end
 
-			it "devrait avoir un message de bienvenue" do
-        post :create, :user => @attr
-        flash[:success].should =~ /Bienvenue dans l'Application Exemple/i
+      it "devrait afficher un message flash" do
+        put :update, :id => @user, :user => @attr
+        flash[:success].should =~ /actualisé/
+      end
+    end
+		#Fin tests succès ----------------------------------------------------------------------------------------
+  end
+#Fin PUT 'update'========================================================================================
+#Debut test authentification =========================================================================================
+	describe "authentification des pages edit/update" do
+
+    before(:each) do
+      @user = Factory(:user)
+    end
+
+    describe "pour un utilisateur non identifié" do
+
+      it "devrait refuser l'acccès à l'action 'edit'" do
+        get :edit, :id => @user
+        response.should redirect_to(signin_path)
+      end
+
+      it "devrait refuser l'accès à l'action 'update'" do
+        put :update, :id => @user, :user => {}
+        response.should redirect_to(signin_path)
       end
     end
   end
-
+#Fin test authentification =========================================================================================
 end
+#Fin UsersController###################################################################################
