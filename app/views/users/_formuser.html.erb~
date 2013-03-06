@@ -1,5 +1,3 @@
-<h1>Inscription</h1>
-
 <%= form_for(@user) do |f| %>
 	<%= render 'shared/error_messages', :object => f.object %>
   <div class="field">
@@ -15,23 +13,30 @@
     <%= f.password_field :password %>
   </div>
   <div class="field">
-    <%= f.label :password_confirmation, "Confirmation (*)" %><br />
+    <%= f.label :password_confirmation, "Confirmation" %><br />
     <%= f.password_field :password_confirmation %>
   </div>
 	<div class="field">
     <%= f.label :taille, "Taille" %><br />
-    <%= f.text_field :taille, :value => "0" %>
+		<% if taille.nil? %>
+  	  <%= f.text_field :taille, :value => "0" %>
+		<% else %>
+			<%= f.text_field :taille %>
+		<% end %>
   </div>
 	<div class="field">
     <%= f.label :poidactu, "Poids Actuel" %><br />
-    <%= f.text_field :poidactu, :value => "0" %>
+    <%= f.text_field :poidactu %>
   </div>
 	<div class="field">
     <%= f.label :poidideal, "Poids Idéal" %><br />
-    <%= f.text_field :poidideal, :value => "0" %>
+    <%= f.text_field :poidideal %>
   </div>
-
-  <div class="actions">
+	<div class="actions">
+	<% if signed_in? %>
+		<%= f.submit "Mettre à jour" %>
+	<% else %>
     <%= f.submit "Inscription" %>
+	<% end %>
   </div>
 <% end %>

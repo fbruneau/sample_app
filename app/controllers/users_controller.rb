@@ -43,6 +43,10 @@ class UsersController < ApplicationController
     end
   end
 
+	def index
+		@users = User.all
+	end
+
 	private
 		def authenticate
       deny_access unless signed_in?

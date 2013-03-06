@@ -29,6 +29,9 @@ describe "Users" do
           fill_in "eMail", :with => "user@example.com"
           fill_in "Password", :with => "foobar"
           fill_in "Confirmation", :with => "foobar"
+					fill_in "Taille", :with => "1.70"
+					fill_in "Poids Actuel", :with => "60"
+					fill_in "Poids Idéal", :with=> "59"
           click_button
           response.should have_selector("div.flash.success",
                                         :content => "Bienvenue")

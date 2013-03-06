@@ -42,6 +42,7 @@ describe "Users" do
 
     describe "l'échec" do
       it "ne devrait pas identifier l'utilisateur" do
+	user = User.new()
 	user.nom = ""
 	user.password = ""
 	integration_sign_in(user)

@@ -1,0 +1,16 @@
+<div class="mensuration">
+<%= form_for(@user) do |f| %>
+	<div class="field">
+		<%= f.label :taille, "Taille" %><br />
+		<%= f.text_field :taille %>
+	</div>
+	<div class="field">
+		<%= f.label :poidactu, "Poids Actuel" %><br />
+		<%= f.text_field :poidactu %>
+	</div>
+	<div class="field">
+		<%= f.label :poidideal, "Poids Idéal" %><br />
+		<%= f.text_field :poidideal %>
+	</div>
+<% end %>
+</div>

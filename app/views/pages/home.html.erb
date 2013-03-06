@@ -4,4 +4,8 @@
   <a href="http://railstutorial.org/">Tutoriel Ruby on Rails</a>.
 </p>
 
-<%= link_to "S'inscrire !", signup_path, :class => "signup_button round" %>
+<% if signed_in? %>
+	<%= link_to "Lister les utilisateurs", index_path, :class => "signup_button round" %>
+<% else %>
+	<%= link_to "S'inscrire !", signup_path, :class => "signup_button round" %>
+<% end %>

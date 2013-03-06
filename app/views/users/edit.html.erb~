@@ -15,11 +15,24 @@
     <%= f.password_field :password %>
   </div>
   <div class="field">
-    <%= f.label :password_confirmation, "Confirmation mot de passe", "Confirmation" %><br />
+    <%= f.label :password_confirmation, "Confirmation" %><br />
     <%= f.password_field :password_confirmation %>
+  </div>
+		<div class="field">
+    <%= f.label :taille, "Taille" %><br />
+    <%= f.text_field :taille %>
+  </div>
+	<div class="field">
+    <%= f.label :poidactu, "Poids Actuel" %><br />
+    <%= f.text_field :poidactu %>
+  </div>
+	<div class="field">
+    <%= f.label :poidideal, "Poids Idéal" %><br />
+    <%= f.text_field :poidideal %>
   </div>
   <div class="actions">
     <%= f.submit "Update" %>
+		<%= link_to "Retour", user_path(@user)%>
   </div>
 <% end %>
 
