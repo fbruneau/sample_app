@@ -18,11 +18,7 @@
   </div>
 	<div class="field">
     <%= f.label :taille, "Taille" %><br />
-		<% if taille.nil? %>
-  	  <%= f.text_field :taille, :value => "0" %>
-		<% else %>
-			<%= f.text_field :taille %>
-		<% end %>
+    <%= f.text_field :taille %>
   </div>
 	<div class="field">
     <%= f.label :poidactu, "Poids Actuel" %><br />
@@ -32,6 +28,11 @@
     <%= f.label :poidideal, "Poids Idéal" %><br />
     <%= f.text_field :poidideal %>
   </div>
+	<div class="field">
+		<%= f.label :cv, "Curriculum Vitae (CV)" %><br />
+		<%= f.file_field  :cv %>
+
+	</div>
 	<div class="actions">
 	<% if signed_in? %>
 		<%= f.submit "Mettre à jour" %>

@@ -8,11 +8,16 @@ describe "Users" do
 
       it "ne devrait pas créer un nouvel utilisateur" do
         lambda do
+					@cv = File.new(Rails.root + 'spec/cv.pdf')
           visit signup_path
           fill_in "Nom", :with => ""
           fill_in "eMail", :with => ""
           fill_in "Password", :with => ""
           fill_in "Confirmation", :with => ""
+					fill_in "Taille", :with => ""
+					fill_in "Poids Actuel", :with => ""
+					fill_in "Poids Idéal", :with=> ""
+					fill_in "Curriculum Vitae (CV)", :with => @cv
           click_button
           response.should render_template('users/new')
           response.should have_selector("div#error_explanation")
@@ -24,6 +29,7 @@ describe "Users" do
 
       it "devrait créer un nouvel utilisateurr" do
         lambda do
+					@cv = File.new(Rails.root + 'spec/cv.pdf')
           visit signup_path
           fill_in "Nom", :with => "Example User"
           fill_in "eMail", :with => "user@example.com"
@@ -31,7 +37,8 @@ describe "Users" do
           fill_in "Confirmation", :with => "foobar"
 					fill_in "Taille", :with => "1.70"
 					fill_in "Poids Actuel", :with => "60"
-					fill_in "Poids Idéal", :with=> "59"
+					fill_in "Poids Idéal", :with => "59"
+					fill_in "Curriculum Vitae (CV)", :with => @cv
           click_button
           response.should have_selector("div.flash.success",
                                         :content => "Bienvenue")
@@ -45,10 +52,10 @@ describe "Users" do
 
     describe "l'échec" do
       it "ne devrait pas identifier l'utilisateur" do
-	user = User.new()
-	user.nom = ""
-	user.password = ""
-	integration_sign_in(user)
+				user = User.new()
+				user.nom = ""
+				user.password = ""
+				integration_sign_in(user)
         response.should have_selector("div.flash.error", :content => "Combinaison Email/Mot de passe invalide.")
       end
     end

@@ -1,7 +1,7 @@
 #encoding = UTF-8
 class UsersController < ApplicationController
 	before_filter :authenticate, :only => [:edit, :update]
-	before_filter :correct_user, :only => [:edit, :update]
+	before_filter :correct_user, :only => [:edit, :update, :destroy]
 
 	def show
     @user = User.find(params[:id])
@@ -14,17 +14,22 @@ class UsersController < ApplicationController
   end
 
 	def create
-    @user = User.new(params[:user])
-    if @user.save
+		if(params[:user][:cv].nil?)
+			@user = User.new(params[:user].merge(:cv => nil))
+		else
+			@user = User.new(params[:user])
+		end
+	  @user = User.new(params[:user].merge(:cv => @file))
+	  if @user.save
 			sign_in @user
-      flash[:success] = "Bienvenue dans l'Application Exemple!"
-      redirect_to @user
-    else
-      	@titre = "Inscription"
+	    flash[:success] = "Bienvenue dans l'Application Exemple!"
+	    redirect_to @user
+	  else
+	    	@titre = "Inscription"
 				@user.password =""
 				@user.password_confirmation =""
-      	render 'new'
-    end
+	    	render 'new'
+	  end
   end
 
 	def edit
@@ -44,8 +49,31 @@ class UsersController < ApplicationController
   end
 
 	def index
-		@users = User.all
+		@titre = "Tous les utilisateurs"
+    @users = User.all
 	end
+
+	def destroy
+    User.find(params[:id]).destroy
+    flash[:success] = "Utilisateur supprimé."
+    redirect_to root_path
+  end
+
+	def downloadCV
+    # Récup le chemin du fichier à partir de l'id
+ 
+    # Recherche du type mime à envoyer au client.
+ 
+    # Envoi du fichier au client
+		@user = User.find(params[:id])
+    send_file(@user.cv.path, :type => @user.cv_content_type)
+  end
+
+	def deleteCVID
+    @user = User.find(params[:id])
+
+		redirect_to edit_user_path(@user)
+  end
 
 	private
 		def authenticate

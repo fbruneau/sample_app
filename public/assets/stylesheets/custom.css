@@ -146,6 +146,13 @@ div.field, div.actions {
   margin-bottom: 10px;
 }
 
+div.deleteProfile {
+	text-align:center;
+	border : thin red solid;
+	margin-left: 30%;
+	margin-right: 30%;
+}
+
 /* Messages d'erreurs Inscription */
 
 .field_with_errors {

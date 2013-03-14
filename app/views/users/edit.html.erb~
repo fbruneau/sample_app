@@ -1,42 +1,10 @@
 <h1>Edition du profil</h1>
 
-<%= form_for(@user) do |f| %>
-  <%= render 'shared/error_messages', :object => f.object %>
-  <div class="field">
-    <%= f.label :nom, "Nom" %><br />
-    <%= f.text_field :nom %>
-  </div>
-  <div class="field">
-    <%= f.label :email, "eMail" %><br />
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :password, "Mot de passe" %><br />
-    <%= f.password_field :password %>
-  </div>
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirmation" %><br />
-    <%= f.password_field :password_confirmation %>
-  </div>
-		<div class="field">
-    <%= f.label :taille, "Taille" %><br />
-    <%= f.text_field :taille %>
-  </div>
-	<div class="field">
-    <%= f.label :poidactu, "Poids Actuel" %><br />
-    <%= f.text_field :poidactu %>
-  </div>
-	<div class="field">
-    <%= f.label :poidideal, "Poids Idéal" %><br />
-    <%= f.text_field :poidideal %>
-  </div>
-  <div class="actions">
-    <%= f.submit "Update" %>
-		<%= link_to "Retour", user_path(@user)%>
-  </div>
-<% end %>
+<%= render 'formuser' %>
 
 <div>
   <%= gravatar_for @user %>
   <a href="http://gravatar.com/emails">changer</a>
 </div>
+
+<strong><%= link_to "Supprimer le profil", @user, :method => :delete, :confirm => "Etes-vous certain&nbsp;?",:title => "Supprimer #{@user.nom}" %></strong>

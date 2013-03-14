@@ -28,6 +28,16 @@
     <%= f.label :poidideal, "Poids Idéal" %><br />
     <%= f.text_field :poidideal %>
   </div>
+	<div class="field">
+		<%= f.label :cv, "Curriculum Vitae (CV)" %><br />
+		<%= f.file_field  :cv %>
+		
+			<% if @user.cv.exists? %>
+				<div>Supprimer (Cochez la case pour supprimer votre CV) : </div><%= link_to @user.cv_file_name, @user.cv.url, :method => :get %>
+				<%= f.check_box :delete_CV, :label =>"Supprimer", :title => "Supprimer #{@user.cv_file_name}" %>
+				<div>Modifier :</div>
+			<% end %>
+	</div>
 	<div class="actions">
 	<% if signed_in? %>
 		<%= f.submit "Mettre à jour" %>

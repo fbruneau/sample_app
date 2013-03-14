@@ -11,6 +11,7 @@
       <strong>URL</strong>  <%= link_to user_path(@user), @user %><br />
 			<strong><%if (current_user==@user)%><%= link_to "Éditer le profil", edit_user_path(@user) %><%end%></strong><br />
 			<strong>IMC</strong>  <%= @user.imc %> kg·m<SUP>−2</SUP><br />
+			<% if @user.cv.exists? %><strong>CV :</strong>  <%= link_to @user.cv_file_name, @user.cv.url, :method => :get %><% end %>
     </td>
   </tr>
 </table>

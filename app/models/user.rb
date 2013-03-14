@@ -11,8 +11,12 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :email, :nom,:taille,:poidactu,:poidideal, :imc,:password, :password_confirmation
+  attr_accessible :email, :nom,:taille,:poidactu,:poidideal, :imc,:password, :password_confirmation, :cv, :delete_CV
 	attr_accessor :password
+
+	has_attached_file :cv,
+  :path => ':rails_root/app/assets/documents/:attachment/:id/:style/:basename.:content_type_extension',
+  :url => '/cv?id=:id'
 
 	email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 	validates :nom, :presence => true, :length   => { :maximum => 50 }
@@ -22,10 +26,13 @@ class User < ActiveRecord::Base
                        :length       => { :within => 6..40 }
 	validates :taille, :presence => true, :numericality => {:greater_than_or_equal_to => 0.1,  :less_than_or_equal_to => 3}
 	validates :poidactu, :presence => true, :numericality => {:greater_than_or_equal_to => 1,  :less_than_or_equal_to => 700}
-	validates :poidideal, :presence => true, :numericality => {:greater_than_or_equal_to => 1,  :less_than_or_equal_to => 700, :less_than_or_equal_to => :poidactu} 
+	validates :poidideal, :presence => true, :numericality => {:greater_than_or_equal_to => 1,  :less_than_or_equal_to => 700, :less_than_or_equal_to => :poidactu}
+	validates_attachment_content_type :cv, :content_type => [ 'application/pdf' ]
 	before_save :encrypt_password
 	before_save :init_mensuration
+	#before_save :check_CV
 	before_save :calc_imc
+	before_save :destroyCV?
 
 	def has_password?(password_soumis)
 	  encrypted_password == encrypt(password_soumis)
@@ -40,6 +47,20 @@ class User < ActiveRecord::Base
 	def self.authenticate_with_salt(id, cookie_salt)
     user = find_by_id(id)
     (user && user.salt == cookie_salt) ? user : nil
+  end
+
+	def check_CV
+		if( self.cv_file_name == "" )
+			self.cv = nil
+		end
+	end
+
+	def delete_CV
+    @delete_CV ||= "0"
+  end
+
+  def delete_CV=(value)
+    @delete_CV = value
   end
 
 	private
@@ -82,4 +103,9 @@ class User < ActiveRecord::Base
     def secure_hash(string)
       Digest::SHA2.hexdigest(string)
     end
+
+		def destroyCV?
+   		self.cv.clear if @delete_CV == "1"
+  	end
+
 end

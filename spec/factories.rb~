@@ -3,5 +3,9 @@ Factory.define :user do |user|
   user.email                 "007@mi6.uk"
   user.password              "moneypenny"
   user.password_confirmation "moneypenny"
+	user.taille								 "1.70"
+	user.poidactu							 "60"
+	user.poidideal 						 "59"
+	user.cv										 "cv.pdf"
 end
 

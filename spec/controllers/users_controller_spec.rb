@@ -80,7 +80,7 @@ describe UsersController do
 
       before(:each) do
         @attr = { :nom => "", :email => "", :password => "",
-                  :password_confirmation => "" }
+                  :password_confirmation => ""  }
       end
 
       it "ne devrait pas créer d'utilisateur" do

@@ -5,6 +5,7 @@
     <title><%= titre %></title>
     <%= csrf_meta_tag %>
     <%= render 'layouts/stylesheets' %>
+		<%= javascript_include_tag :defaults %>
   </head>
   <body>
     <div class="container">
@@ -13,9 +14,6 @@
         <% flash.each do |key, value| %>
           <%= content_tag(:div, value, :class => "flash #{key}") %>
         <% end %> 
-					<% for user in @users %>
-		<li> <%= link_to user.nom, user %></li>
- 	<%end%>
         <%= yield %>
       </section>
 	<%= render 'layouts/footer' %>
