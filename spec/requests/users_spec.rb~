@@ -17,7 +17,7 @@ describe "Users" do
 					fill_in "Taille", :with => ""
 					fill_in "Poids Actuel", :with => ""
 					fill_in "Poids Idéal", :with=> ""
-					fill_in "Curriculum Vitae (CV)", :with => nil
+					fill_in "Curriculum Vitae (CV)", :with => @cv
           click_button
           response.should render_template('users/new')
           response.should have_selector("div#error_explanation")
@@ -35,6 +35,7 @@ describe "Users" do
           fill_in "eMail", :with => "user@example.com"
           fill_in "Password", :with => "foobar"
           fill_in "Confirmation", :with => "foobar"
+					select "1/March/2011"
 					fill_in "Taille", :with => "1.70"
 					fill_in "Poids Actuel", :with => "60"
 					fill_in "Poids Idéal", :with => "59"

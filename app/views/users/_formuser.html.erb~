@@ -17,6 +17,10 @@
     <%= f.password_field :password_confirmation %>
   </div>
 	<div class="field">
+		<%= f.label :dob, "Date de Naissance" %><br />
+		<%= f.select_date :dob, {:start_year => Time.now.year, :end_year => 1900, :prompt => true, :order => [:day, :month, :year]} %>
+	</div>
+	<div class="field">
     <%= f.label :taille, "Taille" %><br />
     <%= f.text_field :taille %>
   </div>
@@ -30,8 +34,12 @@
   </div>
 	<div class="field">
 		<%= f.label :cv, "Curriculum Vitae (CV)" %><br />
-		<%= f.file_field  :cv %>
-
+				<% if @user.cv.exists? %>
+				<div>Supprimer (Cochez la case pour supprimer votre CV) : </div><%= link_to @user.cv_file_name, @user.cv.url, :method => :get %>
+				<%= f.check_box :delete_CV, :label =>"Supprimer", :title => "Supprimer #{@user.cv_file_name}" %>
+				<div>Modifier :</div>
+			<% end %>
+		<%= f.file_field  :cv %>		
 	</div>
 	<div class="actions">
 	<% if signed_in? %>

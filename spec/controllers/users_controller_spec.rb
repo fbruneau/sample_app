@@ -105,7 +105,7 @@ describe UsersController do
 
 		    before(:each) do
 		      @attr = { :nom => "New User", :email => "user@example.com",
-		                :password => "foobar", :password_confirmation => "foobar", :poidactu => "60",:poidideal => "59",:taille => "1.7" }
+		                :password => "foobar", :password_confirmation => "foobar", :dob => DateTime.now, :poidactu => "60",:poidideal => "59",:taille => "1.7" }
 		    end
 
 		    it "devrait créer un utilisateur" do

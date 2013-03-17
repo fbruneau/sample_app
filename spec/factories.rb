@@ -6,5 +6,6 @@ Factory.define :user do |user|
 	user.taille								 "1.70"
 	user.poidactu							 "60"
 	user.poidideal 						 "59"
+	user.dob								DateTime.now
 end
 

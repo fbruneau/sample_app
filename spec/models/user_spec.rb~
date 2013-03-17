@@ -20,6 +20,7 @@ describe User do
 			:email => "user@example.com",
 			:password => "foobar",
       :password_confirmation => "foobar",
+			:dob => DateTime.now
 			:poidactu => "60",
 			:poidideal => "59",
 			:taille => "1.7"
@@ -210,19 +211,6 @@ describe User do
 			petitPoucet.should be_valid
 		end
 	end
-	#Fin test IMC===============================================================================================
-	#Début test pour le CV===============================================================================================
-		describe "Tests CV" do
-			before(:each) do
-	    @user = User.create!(@attr)
-			@cv = File.new(Rails.root + 'spec/cve.pdf')
-		  end
-			
-			it "devrait accepter un fichier pdf" do
-				userWCV = User.new(@attr.merge(:cv => @cv))
-				userWCV.should be_valid
-			end
-		end
 	#Fin test IMC===============================================================================================
 end
 #Fin User***************************************************************************************************

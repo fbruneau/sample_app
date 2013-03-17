@@ -6,6 +6,26 @@ class UsersController < ApplicationController
 	def show
     @user = User.find(params[:id])
 		@titre = @user.nom
+		if( !@user.dob.nil? )
+			if(Time.now.month>=@user.dob.month)
+				if(Time.now.day>=@user.dob.day)
+					@age = Time.now.year - @user.dob.year
+				else
+					@age = Time.now.year - @user.dob.year
+					@age = @age-1 
+				end	
+			else
+				@age = Time.now.year - @user.dob.year
+				@age = @age-1 
+			end
+			if((Time.now.month==@user.dob.month) && (Time.now.day==@user.dob.day))
+					@msg = "Bon Anniversaire #{@user.nom}! Né le #{@user.dob.day}/#{@user.dob.month}/#{@user.dob.year}"
+			else
+				@msg = "Bienvenue sur le profil de  #{@user.nom}!"
+			end
+		else
+			@msg = "Bienvenue sur le profil de  #{@user.nom}!"
+		end
   end  
 
 	def new
@@ -60,14 +80,12 @@ class UsersController < ApplicationController
   end
 
 	def downloadCV
-    # Récup le chemin du fichier à partir de l'id
- 
-    # Recherche du type mime à envoyer au client.
  
     # Envoi du fichier au client
 		@user = User.find(params[:id])
-    send_file(@user.cv.path, :type => @user.cv_content_type)
-  end
+    send_file(@user.cv.path, :type => @user.cv_content_type, :disposition => 'inline')
+		#render :file => @user.cv.path, :encoding => "ISO-8859-1" 
+	end
 
 	def deleteCVID
     @user = User.find(params[:id])

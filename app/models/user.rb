@@ -11,7 +11,7 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :email, :nom,:taille,:poidactu,:poidideal, :imc,:password, :password_confirmation, :cv, :delete_CV
+  attr_accessible :email, :nom,:taille,:poidactu,:poidideal, :imc,:password, :password_confirmation, :cv, :delete_CV, :dob
 	attr_accessor :password
 
 	has_attached_file :cv,
@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
 	validates :password, :presence     => true,
                        :confirmation => true,
                        :length       => { :within => 6..40 }
+	validates :dob, :presence => true
 	validates :taille, :presence => true, :numericality => {:greater_than_or_equal_to => 0.1,  :less_than_or_equal_to => 3}
 	validates :poidactu, :presence => true, :numericality => {:greater_than_or_equal_to => 1,  :less_than_or_equal_to => 700}
 	validates :poidideal, :presence => true, :numericality => {:greater_than_or_equal_to => 1,  :less_than_or_equal_to => 700, :less_than_or_equal_to => :poidactu}

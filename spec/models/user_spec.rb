@@ -20,6 +20,7 @@ describe User do
 			:email => "user@example.com",
 			:password => "foobar",
       :password_confirmation => "foobar",
+			:dob => DateTime.now,
 			:poidactu => "60",
 			:poidideal => "59",
 			:taille => "1.7"
